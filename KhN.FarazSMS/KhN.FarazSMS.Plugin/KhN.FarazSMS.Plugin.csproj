@@ -77,6 +77,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FarazSMS.cs" />
+    <Compile Include="Models\ResponseModel\CountryStateResponseModel.cs" />
+    <Compile Include="Models\ResponseModel\DataResponseModel.cs" />
+    <Compile Include="Models\ResponseModel\MessageStateResponseModel.cs" />
+    <Compile Include="Models\ResponseModel\StatusResponseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

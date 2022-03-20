@@ -20,7 +20,7 @@ namespace KhN.FarazSMS.Plugin
         /// <param name="toNumbers">به شماره های</param>
         /// <param name="message">متن پیامک</param>
         /// <returns>کدهای هر پیامک</returns>
-        public static async Task<decimal> SendToList(string url, string userName, string passWord, string fromNumber, List<string> toNumbers, string message)
+        public static async Task<int> SendToList(string url, string userName, string passWord, string fromNumber, List<string> toNumbers, string message)
         {
             string numbers = "";
 
@@ -72,7 +72,7 @@ namespace KhN.FarazSMS.Plugin
 
             #endregion
 
-            return await Task.Run(() => Convert.ToDecimal(result[1]));
+            return await Task.Run(() => result[1]);
         }
 
 
@@ -86,7 +86,7 @@ namespace KhN.FarazSMS.Plugin
         /// <param name="toNumber">به شماره</param>
         /// <param name="message">متن پیامک</param>
         /// <returns>کدهای هر پیامک</returns>
-        public static async Task<decimal> Send(string url, string userName, string passWord, string fromNumber, string toNumber, string message)
+        public static async Task<int> Send(string url, string userName, string passWord, string fromNumber, string toNumber, string message)
         {
 
             #region ارسال سمت سرور
@@ -110,7 +110,7 @@ namespace KhN.FarazSMS.Plugin
 
             #endregion
 
-            return await Task.Run(() => Convert.ToDecimal(result[1]));
+            return await Task.Run(() => result[1]);
         }
 
 
@@ -224,6 +224,126 @@ namespace KhN.FarazSMS.Plugin
             res = res.Where(x => x.StartsWith("+")).ToList();
 
             return await Task.Run(() => res);
+        }
+
+
+        /// <summary>
+        /// لیست مراکز استان ها (نام شهر ها)
+        /// </summary>
+        /// <param name="url">آدرس مقصد</param>
+        /// <param name="userName">نام کاربری</param>
+        /// <param name="passWord">گذرواژه</param>
+        /// <returns></returns>
+        public static async Task<CountryStateResponseModel> GetCountryState(string url, string userName, string passWord)
+        {
+
+            #region ارسال سمت سرور
+
+            url = string.IsNullOrEmpty(url) ? "http://188.0.240.110/api/select" : url;
+
+            var client = new RestClient(url);
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("cache-control", "no-cache");
+            request.AddHeader("Content-Type", "application/json");
+            request.AddParameter("undefined", "{\"op\" : \"countrystateV2\"" +
+                ",\"uname\" : \"" + userName + "\"" +
+                ",\"pass\":  \"" + passWord + "\"}"
+                , ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+            CountryStateResponseModel result = JsonConvert.DeserializeObject<CountryStateResponseModel>(response.Content);
+            #endregion
+
+  
+            return await Task.Run(() => result);
+        }
+
+
+        /// <summary>
+        /// وضعیت پیامک
+        /// </summary>
+        /// <param name="url">آدرس مقصد</param>
+        /// <param name="userName">نام کاربری</param>
+        /// <param name="passWord">گذرواژه</param>
+        /// <param name="uniqId">کد یونیک پیامک ارسال شده</param>
+        /// <returns></returns>
+        public static async Task<MessageStateResponseModel> GetMessageState(string url, string userName, string passWord, string uniqId)
+        {
+
+            #region ارسال سمت سرور
+
+            url = string.IsNullOrEmpty(url) ? "http://188.0.240.110/api/select" : url;
+
+            var client = new RestClient(url);
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("cache-control", "no-cache");
+            request.AddHeader("Content-Type", "application/json");
+            request.AddParameter("undefined", "{\"op\" : \"checkmessage\"" +
+                ",\"uname\" : \"" + userName + "\"" +
+                ",\"pass\":  \"" + passWord + "\"" +
+                ",\"messageid\": \"" + uniqId + "\"}"
+                , ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+            MessageStateResponseModel result = JsonConvert.DeserializeObject<MessageStateResponseModel> (response.Content);
+            #endregion
+
+
+            return await Task.Run(() => result);
+        }
+
+
+        /// <summary>
+        /// ارسال براساس پترن (عبور از بلک لیست)
+        /// </summary>
+        /// <param name="url">آدرس مقصد</param>
+        /// <param name="userName">نام کاربری</param>
+        /// <param name="passWord">گذرواژه</param>
+        /// <param name="fromNumber">ازشماره</param>
+        /// <param name="toNumber">به شماره</param>
+        /// <param name="patternCode">کد الگو</param>
+        /// <param name="parameters">پارامترها</param>
+        /// <returns></returns>
+        public static async Task<string> SendPattern(string url, string userName, string passWord, string fromNumber, string toNumber,string patternCode, Dictionary<string, string> parameters)
+        {
+
+            string inputData = "";
+            int counter = 1;
+            foreach (var item in parameters)
+            {
+                if (counter == 1 || counter == parameters.Count() / 2)
+                {
+                    inputData = inputData + "\"" + item.Key + "\": \"" + item.Value + "\"";
+                }
+                else
+                {
+                    inputData = inputData + ",\"" + item.Key + "\": \"" + item.Value + "\"";
+                }
+
+                counter++;
+            }
+
+            #region ارسال سمت سرور
+
+            url = string.IsNullOrEmpty(url) ? "http://188.0.240.110/api/select" : url;
+
+            var client = new RestClient(url);
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("cache-control", "no-cache");
+            request.AddHeader("Content-Type", "application/json");
+            request.AddParameter("undefined", "{\"op\" : \"pattern\"" +
+                ",\"user\" : \"" + userName + "\"" +
+                ",\"pass\":  \"" + passWord + "\"" +
+                ",\"fromNum\" : \"" + fromNumber + "\"" +
+                ",\"toNum\": \"" + toNumber + "\"" +
+                ",\"patternCode\": \"" + patternCode + "\"" +
+                ",\"inputData\" : [{" + inputData + "}]}"
+                , ParameterType.RequestBody);
+
+            IRestResponse response = client.Execute(request);
+            string result = JsonConvert.DeserializeObject<string>(response.Content);
+
+            #endregion
+
+            return await Task.Run(() => result);
         }
     }
 }
