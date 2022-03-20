@@ -345,5 +345,37 @@ namespace KhN.FarazSMS.Plugin
 
             return await Task.Run(() => result);
         }
+
+
+        /// <summary>
+        /// دفترچه تلفن ها را برمیگرداند
+        /// </summary>
+        /// <param name="url">آدرس مقصد</param>
+        /// <param name="userName">نام کاربری</param>
+        /// <param name="passWord">گذرواژه</param>
+        /// <returns></returns>
+        public static async Task<PhoneBookStateResponseModel> GetPhoneBooks(string url, string userName, string passWord)
+        {
+
+            #region ارسال سمت سرور
+
+            url = string.IsNullOrEmpty(url) ? "http://188.0.240.110/api/select" : url;
+
+            var client = new RestClient(url);
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("cache-control", "no-cache");
+            request.AddHeader("Content-Type", "application/json");
+            request.AddParameter("undefined", "{\"op\" : \"booklistV2\"" +
+                ",\"uname\" : \"" + userName + "\"" +
+                ",\"pass\" : \"" + passWord + "\"" +
+                ",\"page\":  \"1\"}"
+                , ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+            PhoneBookStateResponseModel result = JsonConvert.DeserializeObject<PhoneBookStateResponseModel>(response.Content);
+            #endregion
+
+
+            return await Task.Run(() => result);
+        }
     }
 }

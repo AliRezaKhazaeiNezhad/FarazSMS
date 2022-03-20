@@ -80,6 +80,8 @@
     <Compile Include="Models\ResponseModel\CountryStateResponseModel.cs" />
     <Compile Include="Models\ResponseModel\DataResponseModel.cs" />
     <Compile Include="Models\ResponseModel\MessageStateResponseModel.cs" />
+    <Compile Include="Models\ResponseModel\PhoneBookResponseModel.cs" />
+    <Compile Include="Models\ResponseModel\PhoneBookStateResponseModel.cs" />
     <Compile Include="Models\ResponseModel\StatusResponseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
