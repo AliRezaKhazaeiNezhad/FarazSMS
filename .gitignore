@@ -1,2 +1,7 @@
 *.agdai
 MAlonzo/**
+/KhN.FarazSMS/.vs/KhN.FarazSMS/v17
+/KhN.FarazSMS/KhN.FarazSMS.Cons/bin/Debug
+/KhN.FarazSMS/KhN.FarazSMS.Cons/obj/Debug
+/KhN.FarazSMS/KhN.FarazSMS.Plugin/bin/Debug
+/KhN.FarazSMS/KhN.FarazSMS.Plugin/obj/Debug
