@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace KhN.FarazSMS.Plugin
 {
@@ -10,8 +11,10 @@ namespace KhN.FarazSMS.Plugin
 
         }
 
-        public string title { get; set; }
-        public int phoneBookId { get; set; }
+        [JsonPropertyName("title")]
+        public string Title { get; set; }
+        [JsonPropertyName("phoneBookId")]
+        public int Id { get; set; }
     }
 
     public class PhoneBookModel
@@ -21,6 +24,7 @@ namespace KhN.FarazSMS.Plugin
 
         }
 
-       public List<PhoneBookResponseModel> phoneBook { get; set; }
+        [JsonPropertyName("phoneBook")]
+       public List<PhoneBookResponseModel> PhoneBook { get; set; }
     }
 }

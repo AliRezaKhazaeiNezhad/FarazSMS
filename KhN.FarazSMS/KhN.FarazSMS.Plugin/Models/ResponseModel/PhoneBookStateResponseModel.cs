@@ -1,5 +1,5 @@
 ﻿
-using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace KhN.FarazSMS.Plugin
 {
@@ -10,7 +10,9 @@ namespace KhN.FarazSMS.Plugin
 
         }
 
-        public StatusResponseModel status { get; set; }
-        public PhoneBookModel data { get; set; }
+        [JsonPropertyName("status")]
+        public StatusResponseModel Status { get; set; }
+        [JsonPropertyName("data")]
+        public PhoneBookModel Data { get; set; }
     }
 }

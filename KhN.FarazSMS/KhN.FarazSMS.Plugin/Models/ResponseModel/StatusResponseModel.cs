@@ -1,4 +1,6 @@
 ﻿
+using System.Text.Json.Serialization;
+
 namespace KhN.FarazSMS.Plugin
 {
     public class StatusResponseModel
@@ -8,8 +10,11 @@ namespace KhN.FarazSMS.Plugin
 
         }
 
-        public int code { get; set; }
-        public string errorMessage { get; set; }
-        public int level { get; set; }
+        [JsonPropertyName("code")]
+        public int Code { get; set; }
+        [JsonPropertyName("errorMessage")]
+        public string Message { get; set; }
+        [JsonPropertyName("level")]
+        public int Level { get; set; }
     }
 }

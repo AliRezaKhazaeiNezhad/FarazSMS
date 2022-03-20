@@ -1,4 +1,6 @@
 ﻿
+using System.Text.Json.Serialization;
+
 namespace KhN.FarazSMS.Plugin
 {
     public class DataResponseModel
@@ -8,7 +10,9 @@ namespace KhN.FarazSMS.Plugin
 
         }
 
-        public string title { get; set; }
-        public string country_state_id { get; set; }
+        [JsonPropertyName("title")]
+        public string Title { get; set; }
+        [JsonPropertyName("country_state_id")]
+        public string Id { get; set; }
     }
 }

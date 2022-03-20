@@ -10,7 +10,6 @@ namespace KhN.FarazSMS.Cons
         static void Main(string[] args)
         {
 
-            
 
             Console.ReadKey();
         }
