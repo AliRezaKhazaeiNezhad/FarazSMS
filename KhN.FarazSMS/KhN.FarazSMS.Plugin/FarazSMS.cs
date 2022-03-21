@@ -377,5 +377,76 @@ namespace KhN.FarazSMS.Plugin
 
             return await Task.Run(() => result);
         }
+
+
+        /// <summary>
+        /// دریافت شماره تلفن های یک دفترچه تلفن
+        /// </summary>
+        /// <param name="url">آدرس مقصد</param>
+        /// <param name="userName">نام کاربری</param>
+        /// <param name="passWord">گذرواژه</param>
+        /// <param name="phoneBookId">کد یونیک دفترچه تلفن</param>
+        /// <returns></returns>
+        public static async Task<List<string>> GetPhoneBookNumbers(string url, string userName, string passWord, string phoneBookId)
+        {
+
+            #region ارسال سمت سرور
+
+            url = string.IsNullOrEmpty(url) ? "http://188.0.240.110/api/select" : url;
+
+            var client = new RestClient(url);
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("cache-control", "no-cache");
+            request.AddHeader("Content-Type", "application/json");
+            request.AddParameter("undefined", "{\"op\" : \"booknumberlist\"" +
+                ",\"uname\" : \"" + userName + "\"" +
+                ",\"pass\":  \"" + passWord + "\"" +
+                ",\"phonebook_id\": \"" + phoneBookId + "\"}"
+                , ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+            List<string> result = JsonConvert.DeserializeObject<List<string>>(response.Content);
+            #endregion
+
+            return await Task.Run(() => result);
+        }
+
+
+
+        /// <summary>
+        /// افزودن شماره به دفترچه تلفن
+        /// </summary>
+        /// <param name="url">آدرس مقصد</param>
+        /// <param name="userName">نام کاربری</param>
+        /// <param name="passWord">گذرواژه</param>
+        /// <param name="phoneBookId">کد یونیک دفترچه تلفن</param>
+        /// <param name="name">نام مخاطب</param>
+        /// <param name="mobileNumber">شماره همراه مخاطب</param>
+        /// <returns></returns>
+        public static async Task<AddNumberInPhoneBookResponseModel> AddPhoneBookNumber(string url, string userName, string passWord, string phoneBookId, string name, string mobileNumber)
+        {
+
+            #region ارسال سمت سرور
+
+            url = string.IsNullOrEmpty(url) ? "http://188.0.240.110/api/select" : url;
+
+            var client = new RestClient(url);
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("cache-control", "no-cache");
+            request.AddHeader("Content-Type", "application/json");
+            request.AddParameter("undefined", "{\"op\" : \"phoneBookAdd\"" +
+                ",\"uname\" : \"" + userName + "\"" +
+                ",\"pass\":  \"" + passWord + "\"" +
+                ",\"number\":  \"" + mobileNumber + "\"" +
+                ",\"name\":  \"" + name + "\"" +
+                ",\"phonebook_id\": \"" + phoneBookId + "\"}"
+                , ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+            AddNumberInPhoneBookResponseModel result = JsonConvert.DeserializeObject<AddNumberInPhoneBookResponseModel>(response.Content);
+            #endregion
+
+            return await Task.Run(() => result);
+        }
+
+
     }
 }

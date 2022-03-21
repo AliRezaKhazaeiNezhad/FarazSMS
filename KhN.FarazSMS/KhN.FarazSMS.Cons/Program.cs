@@ -1,7 +1,6 @@
 ﻿
 
 using System;
-using System.Collections.Generic;
 
 namespace KhN.FarazSMS.Cons
 {
@@ -9,8 +8,6 @@ namespace KhN.FarazSMS.Cons
     {
         static void Main(string[] args)
         {
-
-
             Console.ReadKey();
         }
     }

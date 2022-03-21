@@ -77,11 +77,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FarazSMS.cs" />
+    <Compile Include="Models\ResponseModel\AddNumberInPhoneBookResponseModel.cs" />
     <Compile Include="Models\ResponseModel\CountryStateResponseModel.cs" />
     <Compile Include="Models\ResponseModel\DataResponseModel.cs" />
     <Compile Include="Models\ResponseModel\MessageStateResponseModel.cs" />
     <Compile Include="Models\ResponseModel\PhoneBookResponseModel.cs" />
     <Compile Include="Models\ResponseModel\PhoneBookStateResponseModel.cs" />
+    <Compile Include="Models\ResponseModel\PhoneNumberResponseModel.cs" />
     <Compile Include="Models\ResponseModel\StatusResponseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
